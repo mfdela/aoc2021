@@ -1,7 +1,8 @@
 # Advent of code Aoc2021
 
 This repository contains the solutions of the problems of the
-[advent of code 2021](https://adventofcode.com/2021/) written in [Elixir](https://elixir-lang.org/)
+[advent of code 2021](https://adventofcode.com/2021/) written in [Elixir](https://elixir-lang.org/).
+The repository has been configured as a Mix application.
 
 ## Running it
 
@@ -15,4 +16,5 @@ To run the code with the real input:
     iex(2)> Aoc2021.DayN.run(:part2)
 
 again for N∈[1, 25].
-Input files for each day are saved into the dir `inputs`
+Input files for each day are saved into the dir `inputs`.
+Code is in the `lib` dir.
