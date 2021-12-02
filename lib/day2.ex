@@ -23,24 +23,20 @@ defmodule Aoc2021.Day2 do
   end
 
   defp main(input, part) do
+    {hor, orig_dep, _aim, dep} = Enum.reduce(input, {0, 0, 0, 0}, &acc_position/2)
+
     case part do
-      :part1 ->
-        input
-        |> compute_position()
+      :part1 -> hor * orig_dep
+      :part2 -> hor * dep
     end
   end
 
-  defp compute_position(input) do
-    {hor, dep} = Enum.reduce(input, {0, 0}, &acc_position/2)
-    hor * dep
-  end
-
-  defp acc_position([dir, value], {hor, dep}) do
+  defp acc_position([dir, value], {hor, orig_dep, aim, dep}) do
     case dir do
-      "forward" -> {hor + value, dep}
-      "up" -> {hor, dep - value}
-      "down" -> {hor, dep + value}
-      _ -> {hor, dep}
+      "forward" -> {hor + value, orig_dep, aim, dep + aim * value}
+      "up" -> {hor, orig_dep - value, aim - value, dep}
+      "down" -> {hor, orig_dep + value, aim + value, dep}
+      _ -> {hor, orig_dep, aim, dep}
     end
   end
 end
