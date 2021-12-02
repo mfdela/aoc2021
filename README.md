@@ -16,5 +16,7 @@ To run the code with the real input:
     iex(2)> Aoc2021.DayN.run(:part2)
 
 again for N∈[1, 25].
+
 Input files for each day are saved into the dir `inputs`.
+
 Code is in the `lib` dir.
