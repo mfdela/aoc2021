@@ -2,38 +2,28 @@ defmodule Aoc2021.Day1 do
   def run(part) do
     # If not passed any argument then
     # load the input file
-    result =
-      case part do
-        :part1 ->
-          File.read!("inputs/day1_input.txt")
-          |> clean_input()
-          |> compute_increased(1)
-
-        :part2 ->
-          File.read!("inputs/day1_input.txt")
-          |> clean_input()
-          |> compute_increased(3)
-      end
-
-    result
+    File.read!("inputs/day1_input.txt")
+    |> clean_input()
+    |> main(part)
   end
 
   def run(part, test_input) do
     # If passed the input as an argument then use it
-    result =
-      case part do
-        :part1 ->
-          test_input
-          |> clean_input()
-          |> compute_increased(1)
+    test_input
+    |> clean_input()
+    |> main(part)
+  end
 
-        :part2 ->
-          test_input
-          |> clean_input()
-          |> compute_increased(3)
-      end
+  defp main(input, part) do
+    case part do
+      :part1 ->
+        input
+        |> compute_increased(1)
 
-    result
+      :part2 ->
+        input
+        |> compute_increased(3)
+    end
   end
 
   defp clean_input(input) do
