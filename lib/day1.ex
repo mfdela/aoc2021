@@ -28,7 +28,6 @@ defmodule Aoc2021.Day1 do
 
   defp clean_input(input) do
     # Translates strings to integers
-    # and return the list with indexes to be used later
     input
     |> String.split("\n", trim: true)
     |> Enum.map(&String.to_integer/1)
