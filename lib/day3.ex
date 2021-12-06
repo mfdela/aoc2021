@@ -42,18 +42,8 @@ defmodule Aoc2021.Day3 do
 
     {gamma_d, _} = Integer.parse(Enum.join(gamma, ""), 2)
     {epsilon_d, _} = Integer.parse(Enum.join(epsilon, ""), 2)
-
-    {oxygen, _} =
-      sieve(input, :most_common, 0, &find_common/3)
-      |> List.flatten()
-      |> Enum.join("")
-      |> Integer.parse(2)
-
-    {co2, _} =
-      sieve(input, :least_common, 0, &find_common/3)
-      |> List.flatten()
-      |> Enum.join("")
-      |> Integer.parse(2)
+    {oxygen, _} = Integer.parse(sieve(input, :most_common, 0, &find_common/3), 2)
+    {co2, _} = Integer.parse(sieve(input, :least_common, 0, &find_common/3), 2)
 
     case part do
       :part1 -> gamma_d * epsilon_d
@@ -72,7 +62,7 @@ defmodule Aoc2021.Day3 do
     nlist = bit_criteria.(bit, bit_position, list)
 
     case length(nlist) do
-      1 -> nlist
+      1 -> nlist |> List.flatten() |> Enum.join("")
       _ -> sieve(nlist, bit, bit_position + 1, bit_criteria)
     end
   end
