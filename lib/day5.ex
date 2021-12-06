@@ -40,7 +40,7 @@ defmodule Aoc2021.Day5 do
         line_points(line, diagonals, cross_points)
       end)
 
-    Enum.reduce(crossing_points, 0, fn {{x, y}, count}, acc ->
+    Enum.reduce(crossing_points, 0, fn {{_, _}, count}, acc ->
       if count > 1 do
         acc + 1
       else
@@ -67,11 +67,28 @@ defmodule Aoc2021.Day5 do
         )
 
       ya == yb ->
+        [xi, xf] = [min(xa, xb), max(xa, xb)]
+
         Enum.reduce(
           Range.new(xi, xf, 1),
           cross_points,
           fn x, p ->
             Map.update(p, {x, ya}, 1, fn count ->
+              count + 1
+            end)
+          end
+        )
+
+      diagonals and xf - xi == yf - yi ->
+        # 45 degrees
+        dir_x = div(xb - xa, abs(xb - xa))
+        dir_y = div(yb - ya, abs(yb - ya))
+
+        Enum.reduce(
+          Range.new(0, xf - xi, 1),
+          cross_points,
+          fn i, p ->
+            Map.update(p, {xa + i * dir_x, ya + i * dir_y}, 1, fn count ->
               count + 1
             end)
           end

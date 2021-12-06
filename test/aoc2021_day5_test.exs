@@ -17,6 +17,8 @@ defmodule Aoc2021.Day5.Test do
     """
 
     assert Aoc2021.Day5.run(:part1, input_test) == 5
-    # assert Aoc2021.Day5.run(:part2, input_test) == 1924
+    assert Aoc2021.Day5.run(:part2, input_test) == 12
+    assert Aoc2021.Day5.run(:part1) == 7085
+    assert Aoc2021.Day5.run(:part2) == 20271
   end
 end
