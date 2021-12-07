@@ -27,17 +27,12 @@ defmodule Aoc2021.Day7 do
       :part1 ->
         median = trunc(Statistics.median(input))
         # the function that minimize geometric distances is the median
-        # since median is not integer, evaluate at [median-1, median, median+1]
-        Enum.min(
-          Enum.reduce(-1..1, [], fn i, min ->
-            min ++ [Enum.reduce(input, 0, fn n, acc -> acc + abs(n - median + i) end)]
-          end)
-        )
+        Enum.reduce(input, 0, fn n, acc -> acc + abs(n - median) end)
 
       :part2 ->
         mean = trunc(Statistics.mean(input) + 1 / 2)
         # the function that minimize quadratic distance is the median
-        # distance between a and b is (a-b)*(a-b+1)/2
+        # when distance between a and b is (a-b)*(a-b+1)/2
         # since mean is not integer, evaluate at [mean-1, mean, mean+1]
         Enum.min(
           Enum.reduce(-1..1, [], fn i, min ->
