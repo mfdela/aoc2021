@@ -1,4 +1,4 @@
-defmodule Aoc2021.Day5.Test do
+defmodule Aoc2021.Day6.Test do
   use ExUnit.Case
   doctest Aoc2021.Day6
 
