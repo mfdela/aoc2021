@@ -2,7 +2,7 @@ defmodule Aoc2021.Day5.Test do
   use ExUnit.Case
   doctest Aoc2021.Day5
 
-  test "day5_part1" do
+  test "day5" do
     input_test = """
     0,9 -> 5,9
     8,0 -> 0,8
