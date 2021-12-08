@@ -30,8 +30,8 @@ defmodule Aoc2021.Day7 do
         Enum.reduce(input, 0, fn n, acc -> acc + abs(n - median) end)
 
       :part2 ->
-        mean = trunc(Statistics.mean(input) + 1 / 2)
-        # the function that minimize quadratic distance is the median
+        mean = trunc(Statistics.mean(input) - 1 / 2)
+        # the function that minimize quadratic distance is the mean - 1/2
         # when distance between a and b is (a-b)*(a-b+1)/2
         # since mean is not integer, evaluate at [mean-1, mean, mean+1]
         Enum.min(
