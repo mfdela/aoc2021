@@ -82,16 +82,13 @@ defmodule Aoc2021.Day8 do
         sets_2_5 = w0[2]
 
         set5 =
-          cond do
-            MapSet.size(MapSet.difference(Enum.at(sets_2_5, 0), w0[4])) == 2 ->
-              Enum.at(sets_2_5, 0)
-
-            MapSet.size(MapSet.difference(Enum.at(sets_2_5, 0), w0[4])) == 3 ->
-              Enum.at(sets_2_5, 1)
-
-            true ->
-              IO.puts("Error")
-          end
+          Enum.reduce(0..1, sets_2_5, fn i, acc ->
+            if MapSet.size(MapSet.difference(Enum.at(sets_2_5, i), w0[4])) == 2 do
+              Enum.at(sets_2_5, i)
+            else
+              acc
+            end
+          end)
 
         # assign the set for digit 5 and remove the set from digits 2
         w1 =
