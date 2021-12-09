@@ -13,12 +13,13 @@ defmodule Aoc2021.Day8.Test do
     dbcfg fgd bdegcaf fgec aegbdf ecdfab fbedc dacgb gdcebf gf | cefg dcbef fcge gbcadfe
     bdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd | ed bcgafe cdgba cbgef
     egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
-    gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | gae cfgab fg bagce
+    gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
     """
 
+    # assert Aoc2021.Day8.run(:part1, input_test_a) == 0
     assert Aoc2021.Day8.run(:part1, input_test) == 26
     assert Aoc2021.Day8.run(:part1) == 530
-    # assert Aoc2021.Day8.run(:part2, input_test) ==
-    # assert Aoc2021.Day8.run(:part2) ==
+    assert Aoc2021.Day8.run(:part2, input_test) == 61229
+    assert Aoc2021.Day8.run(:part2) == 1_051_087
   end
 end
