@@ -21,45 +21,64 @@ defmodule Aoc2021.Day10 do
 
   defp main(input, part) do
     # check chunks with a stack structure
-    stack = []
     map = %{"{" => "}", "(" => ")", "[" => "]", "<" => ">"}
     scores = %{")" => 3, "]" => 57, "}" => 1197, ">" => 25137}
+    scores2 = %{")" => 1, "]" => 2, "}" => 3, ">" => 4}
 
-    s =
+    sol =
       Enum.map(input, fn line ->
-        {_stack, first_err} =
-          Enum.reduce_while(String.split(line, "", trim: true), {[], []}, fn c, {s, fe} ->
-            cond do
-              c == "{" or c == "(" or c == "[" or c == "<" ->
-                {:cont, {[c | s], []}}
+        Enum.reduce_while(String.split(line, "", trim: true), {[], []}, fn c, {s, _fe} ->
+          cond do
+            c == "{" or c == "(" or c == "[" or c == "<" ->
+              {:cont, {[c | s], []}}
 
-              c == "}" or c == ")" or c == "]" or c == ">" ->
-                [h | t] = s
-                closed = map[h]
+            c == "}" or c == ")" or c == "]" or c == ">" ->
+              [h | t] = s
+              closed = map[h]
 
-                if c == closed do
-                  {:cont, {t, []}}
-                else
-                  {:halt, {s, [c]}}
-                end
+              if c == closed do
+                {:cont, {t, []}}
+              else
+                {:halt, {s, [c]}}
+              end
 
-              true ->
-                {s, []}
-            end
-          end)
-
-        first_err
+            true ->
+              {s, []}
+          end
+        end)
       end)
 
     case part do
       :part1 ->
-        Enum.reduce(s, 0, fn x, score ->
+        Enum.reduce(sol, 0, fn {_, x}, score ->
           if(not Enum.empty?(x)) do
             score + scores[Enum.at(x, 0)]
           else
             score
           end
         end)
+
+      :part2 ->
+        res =
+          Enum.reduce(sol, [], fn {s, err}, inc ->
+            if Enum.empty?(err) and not Enum.empty?(s) do
+              inc ++ [s]
+            else
+              inc
+            end
+          end)
+          |> Enum.map(fn line ->
+            Enum.map(line, fn c -> map[c] end)
+          end)
+          |> Enum.map(fn line ->
+            Enum.reduce(line, 0, fn c, s ->
+              s * 5 + scores2[c]
+            end)
+          end)
+          |> Enum.sort()
+
+        Enum.slice(res, div(length(res) - 1, 2), 1)
+        |> Enum.at(0)
     end
   end
 end
