@@ -41,22 +41,18 @@ defmodule Aoc2021.Day9 do
     columns = length(Enum.at(input, 0))
     checks = [[-1, 0], [1, 0], [0, 1], [0, -1]]
 
-    {_, min_map} =
-      Enum.reduce(1..(rows - 2), {input, %{}}, fn r, {input, min} ->
-        m_map =
-          Enum.reduce(1..(columns - 2), min, fn c, m ->
-            i = Enum.at(Enum.at(input, r), c)
-            neigh = Enum.map(checks, fn [x, y] -> Enum.at(Enum.at(input, r + x), c + y) end)
+    min_map =
+      for r <- 1..(rows - 2), c <- 1..(columns - 2), reduce: %{} do
+        acc ->
+          i = Enum.at(Enum.at(input, r), c)
+          neigh = Enum.map(checks, fn [x, y] -> Enum.at(Enum.at(input, r + x), c + y) end)
 
-            if i < 9 and i < Enum.min(neigh) do
-              Map.put(m, [r, c], i)
-            else
-              m
-            end
-          end)
-
-        {input, m_map}
-      end)
+          if i < 9 and i < Enum.min(neigh) do
+            Map.put(acc, [r, c], i)
+          else
+            acc
+          end
+      end
 
     case part do
       :part1 ->
