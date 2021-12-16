@@ -24,16 +24,38 @@ defmodule Aoc2021.Day11 do
   end
 
   defp main(input, part) do
+    size = length(input)
+
     {_out, total_flashes} =
-      Enum.reduce(1..100, {input, 0}, fn _step, {matrix, num_flashes} ->
-        increase_1(matrix)
-        |> flashes(num_flashes)
+      Enum.reduce_while(1..1000, {input, 0}, fn step, {matrix, num_flashes} ->
+        acc =
+          increase_1(matrix)
+          |> flashes(num_flashes)
+
+        {m, _n} = acc
+
+        max =
+          for r <- 0..(size - 1),
+              c <- 0..(size - 1),
+              reduce: 0 do
+            acc ->
+              i = Enum.at(Enum.at(m, r), c)
+
+              if i > acc do
+                i
+              else
+                acc
+              end
+          end
+
+        cond do
+          part == :part1 and step == 100 -> {:halt, acc}
+          part == :part2 and max == 0 -> {:halt, {m, step}}
+          true -> {:cont, acc}
+        end
       end)
 
-    case part do
-      :part1 -> total_flashes
-      :part2 -> total_flashes
-    end
+    total_flashes
   end
 
   defp increase_1(matrix) do
