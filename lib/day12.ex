@@ -58,34 +58,33 @@ defmodule Aoc2021.Day12 do
   end
 
   defp main(vertices, graph, part) do
-    vertices_to_label = Enum.reduce(vertices, %{}, fn {k, v}, map -> Map.put(map, v, k) end)
-    {paths, _, _} = find_paths(part, graph, vertices, vertices_to_label, "start", "end")
+    {paths, _, _} = find_paths(part, graph, vertices, vertices["start"], vertices["end"])
     length(paths)
   end
 
-  defp find_paths(part, g, v, vl, s, d) do
-    visited = Enum.reduce(v, %{}, fn {k, _v}, map -> Map.put(map, k, 0) end)
-    find_paths(part, g, v, vl, s, d, visited, [], [])
+  defp find_paths(part, g, v, s, d) do
+    visited = Enum.reduce(:digraph.vertices(g), %{}, fn v, map -> Map.put(map, v, 0) end)
+    find_paths(part, g, v, s, d, visited, [], [])
   end
 
-  defp find_paths(_part, _g, _vertices, _vertices_inverse, s, d, visited, all_paths, current_path)
+  defp find_paths(_part, _g, _vertices, s, d, visited, all_paths, current_path)
        when s == d do
     {all_paths ++ [current_path ++ [d]], current_path, visited}
   end
 
-  defp find_paths(part, g, vertices, vertices_inverse, s, d, visited, all_paths, current_path) do
+  defp find_paths(part, g, vertices, s, d, visited, all_paths, current_path) do
     now_visited = Map.update(visited, s, 1, fn v -> v + 1 end)
     local_path = current_path ++ [s]
 
     {rap, rcp, rvisiting} =
       Enum.reduce(
-        :digraph.out_neighbours(g, vertices[s]),
+        :digraph.out_neighbours(g, s),
         {all_paths, local_path, now_visited},
-        fn vertex, {ap, cp, visiting} ->
-          v = vertices_inverse[vertex]
+        fn vert, {ap, cp, visiting} ->
+          {v, _label} = :digraph.vertex(g, vert)
 
-          if(not_visited_yet?(part, v, visiting)) do
-            find_paths(part, g, vertices, vertices_inverse, v, d, visiting, ap, cp)
+          if(not_visited_yet?(g, part, v, visiting)) do
+            find_paths(part, g, vertices, v, d, visiting, ap, cp)
           else
             {ap, cp, visiting}
           end
@@ -106,15 +105,19 @@ defmodule Aoc2021.Day12 do
     {rap, last_path, last_visited}
   end
 
-  defp not_visited_yet?(part, v, visited) do
+  defp not_visited_yet?(g, part, v, visited) do
+    {_, label} = :digraph.vertex(g, v)
+
     case part do
       :part1 ->
-        String.upcase(v) == v or not (visited[v] > 0)
+        String.upcase(label) == label or not (visited[v] > 0)
 
       :part2 ->
         count =
           Enum.reduce(visited, 0, fn {k, v}, c ->
-            if String.upcase(k) != k and v > 1 do
+            {_, label1} = :digraph.vertex(g, k)
+
+            if String.upcase(label1) != label1 and v > 1 do
               c + 1
             else
               c
@@ -122,7 +125,7 @@ defmodule Aoc2021.Day12 do
           end)
 
         cond do
-          String.upcase(v) == v -> true
+          String.upcase(label) == label -> true
           visited[v] >= 1 and count >= 1 -> false
           visited[v] > 2 -> false
           true -> true
