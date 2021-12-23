@@ -91,18 +91,7 @@ defmodule Aoc2021.Day12 do
         end
       )
 
-    last_visited = Map.update!(rvisiting, s, fn v -> v - 1 end)
-
-    last_path =
-      cond do
-        is_list(rcp) ->
-          List.delete_at(rcp, length(rcp) - 1)
-
-        true ->
-          [rcp]
-      end
-
-    {rap, last_path, last_visited}
+    {rap, List.delete_at(rcp, length(rcp) - 1), Map.update!(rvisiting, s, fn v -> v - 1 end)}
   end
 
   defp not_visited_yet?(g, part, v, visited) do
