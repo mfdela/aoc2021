@@ -1,3 +1,4 @@
 %{
+  "libgraph": {:hex, :libgraph, "0.13.3", "20732b7bafb933dcf7351c479e03076ebd14a85fd3202c67a1c197f4f7c2466b", [:mix], [], "hexpm", "78f2576eef615440b46f10060b1de1c86640441422832052686df53dc3c148c6"},
   "statistics": {:hex, :statistics, "0.6.2", "213dcedc2b3ae7fb775b5510ea9630c66d3c0019ea2f86d5096559853623a60d", [:mix], [], "hexpm", "329f1008dc4ad24430d94c04b52ff09d5fb435ab11f34360831f11eb0c391c17"},
 }
